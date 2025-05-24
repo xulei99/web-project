@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的Web项目</title>
+    <title>分子结构搜索</title>
+    <script type="text/javascript" src="https://peter-ertl.com/jsme/JSME_2017-02-26/jsme/jsme.nocache.js"></script>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -12,7 +13,7 @@
             background-color: #f0f2f5;
         }
         .container {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
             background-color: white;
             padding: 20px;
@@ -22,17 +23,71 @@
         h1 {
             color: #1a73e8;
             text-align: center;
+            margin-bottom: 30px;
         }
-        p {
-            line-height: 1.6;
-            color: #333;
+        .editor-container {
+            text-align: center;
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .search-button {
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .search-button:hover {
+            background-color: #1557b0;
+        }
+        .results {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>欢迎来到我的Web项目</h1>
-        <p>这是一个示例页面，展示了基本的HTML和CSS样式。您可以根据需要修改和扩展这个项目。</p>
+        <h1>分子结构搜索</h1>
+        <div class="editor-container">
+            <div id="jsme_container" style="width: 100%; height: 400px;"></div>
+        </div>
+        <div class="button-container">
+            <button class="search-button" onclick="searchStructure()">搜索结构</button>
+        </div>
+        <div class="results" id="searchResults">
+            <p>请在上方绘制分子结构进行搜索。</p>
+        </div>
     </div>
+
+    <script>
+        function jsmeOnLoad() {
+            jsmeApplet = new JSApplet.JSME("jsme_container", {
+                "options": "oldlook,star"
+            });
+        }
+
+        function searchStructure() {
+            var smiles = jsmeApplet.smiles();
+            if (!smiles) {
+                alert('请先绘制分子结构！');
+                return;
+            }
+            // 这里可以添加实际的搜索逻辑
+            document.getElementById('searchResults').innerHTML = 
+                '<p>正在搜索结构: ' + smiles + '</p>';
+        }
+    </script>
 </body>
 </html>
